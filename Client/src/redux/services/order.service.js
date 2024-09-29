@@ -1,0 +1,51 @@
+
+
+export const getOrderFromApi = async () => {
+
+    try {
+        let jwt = localStorage.getItem('jwt_token')
+
+        let response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/admin/order`, {
+            method: "POST",
+            headers: {
+                "Authorization": jwt
+            }
+        })
+
+
+        return await response.json()
+
+        
+    } catch (error) {
+        throw new Error("Error fetching category")
+    }
+}
+
+export const placeOrderToApi = async (order) => {
+
+
+    try {
+
+        let jwt = localStorage.getItem('jwt_token')
+
+        if (order) {
+            let response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/checkout/${order.cartId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": jwt
+                },
+                body: JSON.stringify(order)
+            })
+            let result = await response.json();
+            console.log(result);
+
+
+        }
+
+    } catch (error) {
+        throw new Error("Error fetching cart")
+    }
+
+}
+
